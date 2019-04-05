@@ -25,7 +25,6 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script>UPLOADCARE_PUBLIC_KEY = 'bf45cf9b52b17ea2e6a2';</script>
   <script>UPLOADCARE_TABS = 'file url gdrive';</script>
-  <script>UPLOADCARE_CLEARABLE = true;</script>
   <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.min.js"></script>
   <script src="https://ucarecdn.com/libs/widget-tab-effects/1.x/uploadcare.tab-effects.min.js"></script>
 
@@ -79,16 +78,6 @@
               <i class="ni ni-tv-2 text-primary"></i> Dashboard
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../components/file-manager.html">
-              <i class="ni ni-pin-3 text-orange"></i> File Manager
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../components/profile.html">
-              <i class="ni ni-single-02 text-yellow"></i> User profile
-            </a>
-          </li>
         </ul>
         <!-- Divider -->
         <hr class="my-3">
@@ -97,7 +86,7 @@
         <!-- Navigation -->
         <ul class="navbar-nav mb-md-3">
           <li class="nav-item">
-            <a class="nav-link" href="https://openload.co/api" target="_blank">
+            <a class="nav-link" href="https://uploadcare.com/docs/" target="_blank">
               <i class="fas fa-file-alt"></i></i> Documentation
             </a>
           </li>
@@ -132,56 +121,56 @@
       </div>
 
       <script>
-        window.UPLOADCARE_PUBLIC_KEY = 'bf45cf9b52b17ea2e6a2'
-      uploadcare.registerTab('preview', uploadcareTabEffects)
+          window.UPLOADCARE_PUBLIC_KEY = 'bf45cf9b52b17ea2e6a2'
+        uploadcare.registerTab('preview', uploadcareTabEffects)
 
-      const widget = uploadcare.Widget('[role=uploadcare-uploader]')
-      let images = []
+        const widget = uploadcare.Widget('[role=uploadcare-uploader]')
+        let images = []
 
-      widget.onUploadComplete(function(info) {
-        saveImage(info.cdnUrl).then(() => {
-          $('#uploadedImage').parent().html('<a href="javascript:refreshPage()">Refresh it!</a>')
+        widget.onUploadComplete(function(info) {
+          saveImage(info.cdnUrl).then(() => {
+            $('#uploadedImage').parent().html('<a href="javascript:refreshPage()">Refresh it!</a>')
+          })
         })
-      })
 
-      fetchImages().then(uploadedImages => {
-        images = uploadedImages
+        fetchImages().then(uploadedImages => {
+          images = uploadedImages
 
-        const imageHtml = images.reduce((html, url) => {
-          const fullUrl = `${url}/-/preview/-/scale_crop/200x200/`
+          const imageHtml = images.reduce((html, url) => {
+            const fullUrl = `${url}/-/preview/-/scale_crop/200x200/`
 
-          return (
-            html +
-            '<div class="col" >' +
-            '<a href="#" class="d-block mb-4 h-100">' +
-            `<img class="img-fluid img-thumbnail" src="${fullUrl}">` +
-            '</a>' +
-            '</div>'
-          )
-        }, '')
+            return (
+              html +
+              '<div class="col" >' +
+              '<a href="#" class="d-block mb-4 h-100">' +
+              `<img class="img-fluid img-thumbnail" src="${fullUrl}">` +
+              '</a>' +
+              '</div>'
+            )
+          }, '')
 
-        $(imageHtml).appendTo('#imagesContainer')
-      })
-
-      function fetchImages() {
-        return new Promise(resolve => {
-          const images = JSON.parse(localStorage.getItem('images') || '[]')
-
-          setTimeout(() => resolve(images), 500)
+          $(imageHtml).appendTo('#imagesContainer')
         })
-      }
 
-      function saveImage(url) {
-        return new Promise(resolve => {
-          images.push(url)
-          localStorage.setItem('images', JSON.stringify(images))
-          setTimeout(() => resolve(), 500)
-        })
-      }
+        function fetchImages() {
+          return new Promise(resolve => {
+            const images = JSON.parse(localStorage.getItem('images') || '[]')
 
-      function refreshPage() {
-        window.location.href = window.location.href
-      }
+            setTimeout(() => resolve(images), 500)
+          })
+        }
+
+        function saveImage(url) {
+          return new Promise(resolve => {
+            images.push(url)
+            localStorage.setItem('images', JSON.stringify(images))
+            setTimeout(() => resolve(), 500)
+          })
+        }
+
+        function refreshPage() {
+          window.location.href = window.location.href
+        }
 
       </script>
 
